@@ -1,5 +1,6 @@
 package com.xiaoyalabs.rushnet;
 
+import com.xiaoyalabs.rushnet.core.RequestQueue;
 import com.xiaoyalabs.rushnet.httpStack.HttpStack;
 
 /**

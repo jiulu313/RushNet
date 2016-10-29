@@ -1,5 +1,7 @@
 package com.xiaoyalabs.rushnet.core;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,10 +24,10 @@ public abstract class Request<T> {
     protected RequestListener<T> mListener;
 
     //请求头
-    protected Map<String,String> mHeaders = new HashMap<String,String>();
+    protected Map<String, String> mHeaders = new HashMap<String, String>();
 
     //请求体
-    protected Map<String,String> mBody = new HashMap<String,String>();
+    protected Map<String, String> mBody = new HashMap<String, String>();
 
     //是否取消请求
     protected boolean isCancel = false;
@@ -36,16 +38,46 @@ public abstract class Request<T> {
     //请求的系列号
     protected int serialNumber;
 
+    protected int timeOut = 1000 * 20;
+
     //默认编码
     public static final String DEFAULT_PARAMS_ENCODING = "UTF-8";
 
     //Content-type
     public final static String HEADER_CONTENT_TYPE = "Content-Type";
 
-    public Request(String url,HttpMethod method,RequestListener<T> listener){
+    public Request(String url, HttpMethod method, RequestListener<T> listener) {
         mUrl = url != null ? url : "";
         mHttpMethod = method;
         mListener = listener;
+    }
+
+    public byte[] getBody() throws UnsupportedEncodingException {
+        Map<String, String> params = getBodyParam();
+        if (params != null && params.size() > 0) {
+            return encodeParameters(params, getParamsEncoding());
+        }
+        return null;
+    }
+
+    private byte[] encodeParameters(Map<String, String> params, String paramsEncoding) throws UnsupportedEncodingException {
+        StringBuilder encodedParams = new StringBuilder();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            encodedParams.append(URLEncoder.encode(entry.getKey(), paramsEncoding));
+            encodedParams.append('=');
+            encodedParams.append(URLEncoder.encode(entry.getValue(), paramsEncoding));
+            encodedParams.append('&');
+        }
+        return encodedParams.toString().getBytes(paramsEncoding);
+    }
+
+
+    public String getParamsEncoding() {
+        return DEFAULT_PARAMS_ENCODING;
+    }
+
+    public String getBodyContentType() {
+        return "application/x-www-form-urlencoded;charset=" + getParamsEncoding();
     }
 
     public String getUrl() {
@@ -93,11 +125,11 @@ public abstract class Request<T> {
         return this;
     }
 
-    public Map<String, String> getBody() {
+    public Map<String, String> getBodyParam() {
         return mBody;
     }
 
-    public Request<T> setBody(Map<String, String> mBody) {
+    public Request<T> setBodyParam(Map<String, String> mBody) {
         this.mBody = mBody;
         return this;
     }
@@ -115,7 +147,7 @@ public abstract class Request<T> {
         return isCache;
     }
 
-    public boolean isHttps(){
+    public boolean isHttps() {
         return mUrl.contains("https://");
     }
 
@@ -124,13 +156,13 @@ public abstract class Request<T> {
         return this;
     }
 
-    public Request<T> addHeader(String key,String value){
-        mHeaders.put(key,value);
+    public Request<T> addHeader(String key, String value) {
+        mHeaders.put(key, value);
         return this;
     }
 
-    public Request<T> addBody(String key,String value){
-        mBody.put(key,value);
+    public Request<T> addBody(String key, String value) {
+        mBody.put(key, value);
         return this;
     }
 
@@ -142,49 +174,58 @@ public abstract class Request<T> {
         this.serialNumber = serialNumber;
     }
 
+    public int getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
+    }
+
+
     //解析响应数据,用户实现
     protected abstract T parseResponse(Response response);
 
     //会由UI线程的handler抛到UI线程中运行
-    public final void deliveryResponse(Response response){
+    public final void deliveryResponse(Response response) {
         T result = parseResponse(response);
-        if(mListener != null ){
+        if (mListener != null) {
             int statusCode = response != null ? response.getStatusCode() : -1;
             String message = response != null ? response.getMessage() : "unkown error";
-            mListener.onComplete(statusCode,result,message);
+            mListener.onComplete(statusCode, result, message);
         }
     }
 
 
-    //请求方法
-    public static enum HttpMethod {
-        GET("GET"),
-        POST("POST"),
-        PUT("PUT"),
-        DELETE("DELETE");
+//请求方法
+public static enum HttpMethod {
+    GET("GET"),
+    POST("POST"),
+    PUT("PUT"),
+    DELETE("DELETE");
 
-        private String mHttpMethod = "";
+    private String mHttpMethod = "";
 
-        private HttpMethod(String method) {
-            mHttpMethod = method;
-        }
-
-        @Override
-        public String toString() {
-            return mHttpMethod;
-        }
+    private HttpMethod(String method) {
+        mHttpMethod = method;
     }
 
-    //请求优先级
-    public static enum Priority{
-        LOW,
-        NORMAL,
-        HIGN,
-        IMMEDIATE
+    @Override
+    public String toString() {
+        return mHttpMethod;
     }
+}
 
-    //请求结果的回调
-    public static interface RequestListener<T> {
-        public void onComplete(int stCode, T response, String errMsg);
-    }
+//请求优先级
+public static enum Priority {
+    LOW,
+    NORMAL,
+    HIGN,
+    IMMEDIATE
+}
+
+//请求结果的回调
+public static interface RequestListener<T> {
+    public void onComplete(int stCode, T response, String errMsg);
+}
 }

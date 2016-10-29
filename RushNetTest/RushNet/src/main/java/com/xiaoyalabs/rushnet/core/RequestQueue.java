@@ -1,4 +1,4 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.core;
 
 import com.xiaoyalabs.rushnet.core.NetworkExecutor;
 import com.xiaoyalabs.rushnet.core.Request;

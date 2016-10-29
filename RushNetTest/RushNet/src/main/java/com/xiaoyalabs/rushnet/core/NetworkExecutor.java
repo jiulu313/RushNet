@@ -61,7 +61,8 @@ public class NetworkExecutor extends Thread {
 
     //退出
     public void quit(){
-
+        isStop = true;
+        interrupt();
     }
 
     //是否要缓存起来
