@@ -1,4 +1,4 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.core;
 
 /**
  * Created by zhanghongjun on 2016/10/27.

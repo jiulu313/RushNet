@@ -1,4 +1,4 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.core;
 
 import android.os.Handler;
 import android.os.Looper;

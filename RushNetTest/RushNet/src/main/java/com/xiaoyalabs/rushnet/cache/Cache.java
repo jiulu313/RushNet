@@ -1,4 +1,4 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.cache;
 
 
 import android.support.v4.util.LruCache;

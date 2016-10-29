@@ -1,6 +1,7 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.httpStack;
 
-import android.app.DownloadManager;
+import com.xiaoyalabs.rushnet.core.Request;
+import com.xiaoyalabs.rushnet.core.Response;
 
 /**
  * Created by zhanghongjun on 2016/10/29.

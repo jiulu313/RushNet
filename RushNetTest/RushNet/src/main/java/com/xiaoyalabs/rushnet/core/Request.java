@@ -1,4 +1,4 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +32,9 @@ public abstract class Request<T> {
 
     //是否缓存
     protected boolean isCache = false;
+
+    //请求的系列号
+    protected int serialNumber;
 
     //默认编码
     public static final String DEFAULT_PARAMS_ENCODING = "UTF-8";
@@ -129,6 +132,14 @@ public abstract class Request<T> {
     public Request<T> addBody(String key,String value){
         mBody.put(key,value);
         return this;
+    }
+
+    public int getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     //解析响应数据,用户实现

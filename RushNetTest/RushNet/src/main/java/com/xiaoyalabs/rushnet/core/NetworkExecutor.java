@@ -1,8 +1,10 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.core;
 
-import java.util.concurrent.BlockingDeque;
+import com.xiaoyalabs.rushnet.cache.Cache;
+import com.xiaoyalabs.rushnet.cache.LruMemCache;
+import com.xiaoyalabs.rushnet.httpStack.HttpStack;
+
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by zhanghongjun on 2016/10/29.

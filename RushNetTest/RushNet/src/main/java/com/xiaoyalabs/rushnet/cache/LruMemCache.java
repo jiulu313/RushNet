@@ -1,8 +1,8 @@
-package com.xiaoyalabs.rushnet;
+package com.xiaoyalabs.rushnet.cache;
 
 import android.support.v4.util.LruCache;
 
-import java.util.LinkedHashMap;
+import com.xiaoyalabs.rushnet.core.Response;
 
 /**
  * Created by zhanghongjun on 2016/10/28.
