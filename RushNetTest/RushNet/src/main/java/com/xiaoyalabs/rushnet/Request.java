@@ -131,11 +131,11 @@ public abstract class Request<T> {
         return this;
     }
 
-
     //解析响应数据,用户实现
     protected abstract T parseResponse(Response response);
 
-    public final void dispatchResponse(Response response){
+    //会由UI线程的handler抛到UI线程中运行
+    public final void deliveryResponse(Response response){
         T result = parseResponse(response);
         if(mListener != null ){
             int statusCode = response != null ? response.getStatusCode() : -1;

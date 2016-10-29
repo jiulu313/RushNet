@@ -5,7 +5,7 @@ package com.xiaoyalabs.rushnet;
  */
 
 public class Response {
-    protected byte[] mRawData;
+    protected byte[] mRawData = new byte[0];
 
 
     public int getStatusCode(){
@@ -16,6 +16,8 @@ public class Response {
         return "";
     }
 
-
+    public int getRawDataLength(){
+        return mRawData.length;
+    }
 
 }
