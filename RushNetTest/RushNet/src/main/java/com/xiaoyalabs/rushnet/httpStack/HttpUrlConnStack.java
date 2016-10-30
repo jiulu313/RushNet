@@ -40,6 +40,7 @@ public class HttpUrlConnStack implements HttpStack {
         return null;
     }
 
+    //还没想好
     private Response fetchResponse(HttpURLConnection connection) throws IOException {
 
 //        // Initialize HttpResponse with data from the HttpURLConnection.

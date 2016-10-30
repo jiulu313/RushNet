@@ -8,6 +8,9 @@ import com.xiaoyalabs.rushnet.core.Response;
  */
 
 public class HttpClientStack implements HttpStack{
+
+
+    //以后实现
     @Override
     public Response performRequest(Request<?> request) {
         return null;
