@@ -29,10 +29,33 @@ public class HttpUrlConnStack implements HttpStack {
             urlConnection = createURLConnection(request);
             setRequestHeader(urlConnection, request);
             setRequestParams(urlConnection, request);
-
+            return fetchResponse(urlConnection);
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
+        return null;
+    }
+
+    private Response fetchResponse(HttpURLConnection connection) throws IOException {
+
+//        // Initialize HttpResponse with data from the HttpURLConnection.
+//        ProtocolVersion protocolVersion = new ProtocolVersion("HTTP", 1, 1);
+//        int responseCode = connection.getResponseCode();
+//        if (responseCode == -1) {
+//            throw new IOException("Could not retrieve response code from HttpUrlConnection.");
+//        }
+//        StatusLine responseStatus = new BasicStatusLine(protocolVersion,
+//                connection.getResponseCode(), connection.getResponseMessage());
+//        Response response = new Response(responseStatus);
+//        response.setEntity(entityFromURLConnwction(connection));
+//        addHeadersToResponse(response, connection);
+//        return response;
+
+
         return null;
     }
 
